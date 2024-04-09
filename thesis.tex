@@ -1,11 +1,13 @@
+
 \documentclass[
-    11pt,
+    oneside,
+    report,
+    12pt,
     a4paper,
     sfdefaults=false,
     toc=chapterentrywithdots,
-    twoside,openright,
     titlepage,
-    parskip=half,
+    parskip=never,
     headings=normal,  % reduces heading size
     listof=totoc,
     bibliography=totoc,
@@ -24,7 +26,7 @@
 \newcommand{\studiengang}{Informatik}  % {Informatik,Wirtschaftsinformatik,Medieninformatik}
 \newcommand{\matrikelnr}{123\,4567}
 \newcommand{\erstgutachter}{Prof.\,Dr.~Korbinian Riedhammer}
-\newcommand{\zweitgutachter}{Prof.\,Dr.~Bartosz von\,Rymon\,Lipinski}
+\newcommand{\zweitgutachter}{Prof.\,Dr.~Bartosz von\,Rymon}
 \newcommand{\betreuer}{M.Sc.\,~Martina Schmidt}
 \newcommand{\unternehmen}{Musterfirma GmbH}
 \newcommand{\logo}{figures/TH-Nuernberg-RGB.png}
@@ -33,6 +35,15 @@
 
 % custom head and foot
 \usepackage[automark]{scrlayer-scrpage}
+\clearpairofpagestyles % Clear default settings
+\ihead{\headmark} % Inner head
+\ohead{\pagemark} % Outer head (page number)
+\cfoot{} % Center foot - empty in this setup
+% If you want a line below the header or above the footer, you can configure
+% \KOMAoptions or \setkomafont here
+
+\renewcommand*\chaptermarkformat{\chapappifchapterprefix{\ }% 
+  \thechapter.\enskip}
 \pagestyle{scrheadings}
 \ihead{\headmark}
 \chead{}
@@ -47,24 +58,67 @@
 \usepackage{scrhack}
 
 % other packages
+\usepackage{wrapfig}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern,relsize,textcomp,csquotes}
 \usepackage{amsmath,amsfonts}
-\usepackage[ngerman,english]{babel}  % flip for German thesis
+\usepackage[ngerman]{babel}  % flip for German thesis
 \usepackage[final]{graphicx}
-\usepackage{setspace,geometry,xcolor}
+\usepackage{setspace,xcolor}
 \usepackage{makeidx}
 \usepackage{paralist,ifthen,todonotes}
 \usepackage{url}
-\usepackage[toc]{glossaries}
+\usepackage[toc, acronym]{glossaries}
 \usepackage{pdfpages}
+%Format of headings
+\usepackage{titlesec}
+% Define chapter title style
+\titleformat{\chapter}[hang]
+  {\normalfont\Huge\bfseries} % format
+  {\thechapter\ } % label
+  {0pt} % sep (space between label and title)
+  {} % before-code
+  [] % after-code
+% Section title formatting
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{1em}{}
+% Subsection title formatting
+\titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection}{1em}{}
+% Subsubsection title formatting
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{}
+% Paragraph title formatting
+\titleformat{\paragraph}[runin]{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+% Subparagraph title formatting
+\titleformat{\subparagraph}[runin]{\normalfont\normalsize\bfseries}{\thesubparagraph}{1em}{}
+% Adjust spacing
+\titlespacing*{\chapter}{0pt}{5pt}{5pt}
+\titlespacing*{\section}{0pt}{10pt}{5pt}
+\titlespacing*{\subsection}{0pt}{10pt}{5pt}
+\titlespacing*{\subsubsection}{0pt}{10pt}{5pt}
+\titlespacing*{\paragraph}{0pt}{10pt}{5pt}
+\titlespacing*{\subparagraph}{0pt}{10pt}{5pt}
+% Redefine the chapter command to not start on a new page
 
+
+%\titleformat{\chapter}{\normalfont\bfseries}{\thechapter}{1pt}{\LARGE}
+%\titleformat{\section}{\normalfont\bfseries}{\thesection}{5pt}{}
+%\titlespacing*{\chapter}{0pt}{-10pt}{5pt}
 % table setup
 \usepackage{longtable}
 \usepackage{array}
 \usepackage{ragged2e}
 \usepackage{lscape}
+\usepackage{setspace}
+%\usepackage{fancyhdr}
+%\usepackage[hidelinks]{hyperreff}
+%\fancypagestyle{mystyle}{%
+%  \fancyhf{} % Clear all header and footer fields
+%  \renewcommand{\headrulewidth}{0pt} % Remove the header rule
+%  \fancyfoot[C]{\thepage} % Center the page number in the footer
+%}
+%\fancyfootoffset{0pt}
+%\pagestyle{mystyle}
+
 
 % pdf hyperref
 \usepackage[
@@ -79,12 +133,12 @@
     pdfkeywords={\keywords},
     pdfpagelabels=true,
     colorlinks=true,
-    linkcolor=red,
+    linkcolor=black,
     urlcolor=magenta,
     anchorcolor=black,
     citecolor=cyan,
     filecolor=magenta,
-    menucolor=red,
+    menucolor=black,
     plainpages=false,
     hypertexnames=true,
     linktocpage=true,
@@ -104,8 +158,9 @@
 
 % page setup
 % \setlength{\topskip}{\ht\strutbox}
-\geometry{paper=a4paper,left=2.5cm,top=3.0cm,bindingoffset=.8cm}
-\onehalfspacing
+
+\usepackage[paper=a4paper,left=2.5cm,right=2.0cm,top=2.0cm,bottom=2.0cm,bindingoffset=0.0cm]{geometry}
+\singlespacing
 \frenchspacing
 \clubpenalty = 10000
 \widowpenalty = 10000 
@@ -131,10 +186,8 @@
 \loadglsentries{glossary}
 
 \begin{document}
-
 \setcounter{secnumdepth}{3}  % numerate subsections
 \setcounter{tocdepth}{2}  % ...but don't include them in toc
-
 \frontmatter
 \include{cover}\cleardoublepage
 
